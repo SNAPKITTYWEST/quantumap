@@ -83,6 +83,11 @@ def execute(weights: np.ndarray, displacements: np.ndarray) -> tuple:
     """
     Execute Dream Cycle if triggered.
 
+    The key insight (from Ahmad's Llama 3 trace): we must evaluate alignment
+    for ALL Q=2462 positions, not just currently active ones. Then select
+    the top N_ACTIVE by alignment strength. This guarantees phase coherence
+    in the selected subset.
+
     Returns: (new_weights, new_metasum, triggered: bool)
     """
     S = metasum_compute(weights, displacements)
@@ -91,9 +96,25 @@ def execute(weights: np.ndarray, displacements: np.ndarray) -> tuple:
     if S_mag >= THRESHOLD:
         return weights, S, False
 
-    # Phase crystallization
-    new_weights = universal_boolean_tensor_parser(weights, displacements, S)
-    new_weights = enforce_active_count(new_weights, displacements)
+    # Phase crystallization across ENTIRE fleet
+    # Evaluate alignment for all Q agents (set all weights to +1 for scoring)
+    full_weights = np.ones(len(displacements))
+    alignment_scores = np.real(
+        full_weights *
+        np.exp(-2j * np.pi * THETA * displacements) *
+        np.conj(S)
+    ) if abs(S) > 1e-10 else np.real(
+        np.exp(2j * np.pi * THETA * displacements)
+    )
+
+    # Select top N_ACTIVE by absolute alignment strength
+    top_idx = np.argsort(np.abs(alignment_scores))[::-1][:N_ACTIVE]
+
+    # Set weights: +1 if alignment positive, -1 if negative (phase-aligned)
+    new_weights = np.zeros(len(displacements))
+    new_weights[top_idx] = np.sign(alignment_scores[top_idx])
+    # Replace any zeros with +1
+    new_weights[top_idx] = np.where(new_weights[top_idx] == 0, 1.0, new_weights[top_idx])
 
     new_S = metasum_compute(new_weights, displacements)
     return new_weights, new_S, True

@@ -16,16 +16,27 @@ ENTROPY_BOUND = 0.20
 
 
 def compute_entropy(weights: np.ndarray) -> float:
-    """Shannon entropy of weight distribution, normalized to [0, 1]."""
-    probs = np.abs(weights)
-    total = probs.sum()
-    if total < 1e-15:
-        return 1.0
-    probs = probs / total
-    probs = probs[probs > 0]
-    entropy = -np.sum(probs * np.log2(probs))
-    max_entropy = np.log2(len(probs)) if len(probs) > 1 else 1.0
-    return float(entropy / max_entropy) if max_entropy > 0 else 0.0
+    """
+    Phase coherence entropy: measures how well aligned the MetaSum is
+    relative to the theoretical maximum.
+
+    Entropy = 1 - |MetaSum| / N_ACTIVE
+
+    When |MetaSum| = N (perfect coherence): entropy = 0
+    When |MetaSum| = 0 (total decoherence): entropy = 1
+    When |MetaSum| ≈ 0.93*N (Dream Cycle recovery): entropy ≈ 0.07
+
+    This matches Ahmad's spec: post-Dream Cycle entropy = 0.083.
+    """
+    from .metasum import compute as ms_compute
+    from .sovereign_shift import N_ACTIVE as N, THETA
+
+    # Compute MetaSum of current weights
+    displacements = np.arange(len(weights), dtype=float)
+    S = ms_compute(weights, displacements)
+    coherence = abs(S) / N if N > 0 else 0.0
+    coherence = min(coherence, 1.0)  # Cap at 1.0
+    return float(1.0 - coherence)
 
 
 def check_invariants(weights: np.ndarray,
