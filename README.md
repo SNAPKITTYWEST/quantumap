@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/qautuamAP_avatar.gif" width="400" alt="qautuamAP - Quantum Avatar" />
+  <img src="assets/quantumAP_avatar.gif" width="400" alt="QuantumAP - Quantum Avatar" />
 </p>
 
-<h1 align="center">qautuamAP</h1>
+<h1 align="center">QuantumAP</h1>
 <h3 align="center">AI Hallucination Catcher</h3>
 
 <p align="center">
