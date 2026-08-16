@@ -213,4 +213,11 @@ The timestamps are on GitHub. The repo runs. `refl` doesn't care about LinkedIn.
 
 ## License
 
-Sovereign. WORM-sealed.
+**Tri-License** (BSL-1.1 / AGPL-3.0 / MPL-2.0) — See [LICENSE](LICENSE)
+
+- SaaS/network deployment: AGPL-3.0 (mandatory, no opt-out)
+- Enterprise/commercial: BSL-1.1 (converts to AGPL-3.0 after 2028-08-15)
+- File-level modifications: MPL-2.0 (non-network only)
+- Patent retaliation clause active
+
+Copyright (C) 2026 Bel Esprit D'Accord Irrevocable Trust / SnapKitty Collective Limited
