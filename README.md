@@ -1,9 +1,14 @@
 <p align="center">
-  <img src="assets/ahmad_avatar.png" width="180" style="border-radius: 50%;" />
+  <img src="assets/qautuamAP_avatar.gif" width="400" alt="qautuamAP - Quantum Avatar" />
 </p>
 
-<h1 align="center">QuantumAP</h1>
-<h3 align="center">Hallucination-Resistant Sovereign Truth Engine</h3>
+<h1 align="center">qautuamAP</h1>
+<h3 align="center">AI Hallucination Catcher</h3>
+
+<p align="center">
+  <em>Catching hallucinations at the edge of the quantum wormhole.</em><br/>
+  <strong>Black hole oriented. Crypto-embedded. Reality-checked.</strong>
+</p>
 
 <p align="center">
   <strong>Built in 20 minutes. On a phone. At 1:33 AM.</strong><br/>
