@@ -1,0 +1,84 @@
+name:                liquidlean-theorem3
+version:             0.1.0.0
+github:              "SNAPKITTYWEST/sov-kernel-monster"
+license:             SSL
+author:              "Ahmad Ali Parr"
+maintainer:          "ahmedparr93@gmail.com"
+copyright:           "2026 SnapKitty Collective"
+
+extra-source-files:
+- README.md
+- INTEGRATION_GUIDE.md
+
+# Metadata
+synopsis:            Jacobian Conjecture Crack — Theorem 3 in Haskell
+description:         |
+  Rigorous formalization of the Jacobian Conjecture attack via genus-0 forcing.
+
+  Core pipeline:
+    1. Analyze singularities of implicit curve h(u,x)
+    2. Compute δ-invariants via Mora standard bases
+    3. Apply Plücker genus formula: g = (d-1)(d-2)/2 - Σ δ_P
+    4. If g=0, curve is rational (genus-0), proving Theorem 3
+
+  Integrated with sov-kernel-monster quantum kernel for:
+    - Energy accounting (φ-decay tokens)
+    - WORM attestation (Blake3 + Ed25519)
+    - Lean FFI bindings (@[extern])
+    - Fortran bridge (C ABI)
+
+dependencies:
+- base >= 4.16 && < 5
+- containers >= 0.6.5
+- mtl >= 2.2.2
+
+default-extensions:
+- DataKinds
+- GADTs
+- KindSignatures
+- TypeOperators
+- ScopedTypeVariables
+- StrictData
+- BangPatterns
+- PatternSynonyms
+- ViewPatterns
+
+library:
+  source-dirs:       LiquidLean
+  ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wredundant-constraints
+  - -Wno-name-shadowing
+  - -O2
+  - -fspec-constr-recursive=16
+  - -fstatic-argument-transformation
+
+executables:
+  theorem3-cli:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -O2
+    dependencies:
+    - liquidlean-theorem3
+    - text
+    - bytestring
+
+tests:
+  liquidlean-theorem3-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - liquidlean-theorem3
+    - hspec
+    - QuickCheck
