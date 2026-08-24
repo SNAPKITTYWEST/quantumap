@@ -1,0 +1,60 @@
+# sovereign-node.yaml - Bifrost Node Configuration
+# Authors: Ahmad Ali Parr, Jessica L. Williams (SNAPKITTYWEST)
+version: "1.0"
+
+identity:
+  node_id: "sovereign-001"
+  genesis_hash: "GENESIS_BLOCK_HASH_FIXED"
+  sot_token_path: "/secure/sot_token.bin"
+
+consensus:
+  type: "BFT-PBFT"
+  validators: 7
+  quorum: 5
+  timeout_ms: 5000
+
+plasma_gate:
+  enabled: true
+  quarantine_depth: 1
+  alert_threshold: 1
+
+execution:
+  kernel_binary: "/verified/sovereign_kern"
+  max_history: 48
+  bifurcation_threshold: 49
+  q12_modulus: 12
+  mirror_dimension: 106
+  branch_dimension: 53
+  decoherence_passes: 4
+
+network:
+  listen: "0.0.0.0:8443"
+  peers:
+    - "sovereign-002:8443"
+    - "sovereign-003:8443"
+    - "sovereign-004:8443"
+    - "sovereign-005:8443"
+    - "sovereign-006:8443"
+    - "sovereign-007:8443"
+  tls: true
+  cert_path: "/certs/node.crt"
+  key_path: "/certs/node.key"
+
+storage:
+  worm_path: "/data/worm_chain"
+  snapshot_interval: 1000
+  prune_depth: 10000
+
+monitoring:
+  metrics_port: 9090
+  health_endpoint: "/health"
+
+lean_verification:
+  kernel_version: "4.11.0"
+  required_modules:
+    - "QuantumTwin"
+    - "MeasureConservation"
+    - "BranchingTrigger"
+    - "SovereignLedger"
+    - "Genesis"
+  max_sorries: 0
